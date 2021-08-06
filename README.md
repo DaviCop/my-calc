@@ -5,5 +5,5 @@ Membros da equipe: Bento Alves
                    Davi Emanuel
                    Kalline Freitas
 
-Link da aplicação no Heroku: mykalc.herokuapp.com
+Link da aplicação no Heroku: http://mykalc.herokuapp.com/
                    
