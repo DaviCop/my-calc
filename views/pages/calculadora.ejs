@@ -95,27 +95,60 @@
 
             </table>
         </div>
-    <script>
+    <script>   
+            //Calculadora baiana 100% funcional feita em chernobyl:
+            var url = "http://api.mathjs.org/v4/?expr=";
+            var request = new XMLHttpRequest();
+            var expressao = "";
+            //É isso
                 function insert(num)
                 {
                     var numero = document.getElementById('resultado').innerHTML;
                     document.getElementById('resultado').innerHTML = numero + num;
+                    switch(num) {
+                        case '+':
+                            expressao+="%2B";
+                            break;
+                        case '/':
+                            expressao+="%2F"
+                            break;
+                        case '^':
+                            expressao+="%5E"
+                            break;
+                        default:
+                            expressao+=num
+                    }
                 }
+
                 function clean()
                 {
                     document.getElementById('resultado').innerHTML = '';
+                    expressao="";
                 }
+
                 function back()
                 {
                     var resultado = document.getElementById('resultado').innerHTML;
                     document.getElementById('resultado').innerHTML = resultado.substring(0, resultado.length -1);
                 }
+
                 function calcular()
                 {
                     var resultado = document.getElementById('resultado').innerHTML;
                     if(resultado)
                     {
-                        document.getElementById('resultado').innerHTML = eval(resultado);
+                        request.open("GET", url+expressao, true);
+                        //request.send();
+                        request.onreadystatechange = function(){
+                            if ( request.readyState == 4 && request.status == 200 ) {
+                                //console.log(request.responseText);
+                                document.getElementById('resultado').innerHTML = request.responseText;
+                                expressao=request.responseText;
+                                
+                        }
+                        
+                    }
+                    request.send();   
                     }
                     else
                     {
@@ -127,6 +160,9 @@
                     if(/[0-9]/.test(event.key))
                         atualizarDisplay({value: event.key});
                 }
+
+              
+                
             </script>
         </body>
     </style>
