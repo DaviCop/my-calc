@@ -52,7 +52,7 @@
         }
 
         #resultado{
-            width: 250px;
+            width: 437.5px;
             height: 50px;
             background-color:#fff;
             border-radius: 5px;
@@ -72,23 +72,35 @@
                     <td><button class="botao" onclick="insert('8')">8</button></td>
                     <td><button class="botao" onclick="insert('9')">9</button></td>
                     <td><button class="botao" onclick="insert('*')">*</button></td>
+                    <td><button class="botao" onclick="insert('^')">^</button></td>
+                    <td><button class="botao" onclick="insert('sqrt(')">√x</button></td>
+                    <td><button class="botao" onclick="insert('%')">%</button></td>
                 </tr>
                 <tr>
                     <td><button class="botao" onclick="insert('4')">4</button></td>
                     <td><button class="botao" onclick="insert('5')">5</button></td>
                     <td><button class="botao" onclick="insert('6')">6</button></td>
                     <td><button class="botao" onclick="insert('-')">-</button></td>
+                    <td><button class="botao" onclick="insert('(')">(</button></td>
+                    <td><button class="botao" onclick="insert('cos(')">cos</button></td>
+                    <td><button class="botao" onclick="insert('sin(')">sin</button></td>
                 </tr>
                 <tr>
                     <td><button class="botao" onclick="insert('1')">1</button></td>
                     <td><button class="botao" onclick="insert('2')">2</button></td>
                     <td><button class="botao" onclick="insert('3')">3</button></td>
                     <td><button class="botao" onclick="insert('+')">+</button></td>
+                    <td><button class="botao" onclick="insert(')')">)</button></td>
+                    <td><button class="botao" onclick="insert('°')">°</button></td>
+                    <td><button class="botao" onclick="insert('log(')">log</button></td>
                 </tr>
                 <tr>
                     <td><button class="botao" onclick="clean()">C</button></td>
                     <td><button class="botao" onclick="insert('0')">0</button></td>
                     <td><button class="botao" onclick="insert('/')">/</button></td>
+                    <td><button class="botao" onclick="insert('.')">.</button></td>
+                    <td><button class="botao" onclick="back()">←</button></td>
+                    <td><button class="botao" onclick="limparHistorico()">⎚</button></td>
                     <td><button class="i_color" onclick="calcular()">=</button></td>
                     
                 </tr>
@@ -99,18 +111,26 @@
             //Calculadora baiana 100% funcional feita em chernobyl:
             var url = "http://api.mathjs.org/v4/?expr=";
             var request = new XMLHttpRequest();
-            var expressao = "";
+            var expressao = "", expressaoB = "", innerB = "", resc = "";
             //É isso
                 function insert(num)
                 {
+                    expressaoB=expressao;
+                    innerB=document.getElementById('resultado').innerHTML;
                     var numero = document.getElementById('resultado').innerHTML;
                     document.getElementById('resultado').innerHTML = numero + num;
                     switch(num) {
                         case '+':
                             expressao+="%2B";
                             break;
-                        case '/':
-                            expressao+="%2F"
+                        case '+':
+                            expressao+="%2B";
+                            break;
+                        case '%':
+                            expressao+="/100*";
+                            break;
+                        case '°':
+                            expressao+=" deg"
                             break;
                         case '^':
                             expressao+="%5E"
@@ -128,8 +148,13 @@
 
                 function back()
                 {
-                    var resultado = document.getElementById('resultado').innerHTML;
-                    document.getElementById('resultado').innerHTML = resultado.substring(0, resultado.length -1);
+                    resc=expressao;
+                    expressao=expressaoB;
+                    expressaoB=resc;
+                    resc=document.getElementById('resultado').innerHTML;
+                    document.getElementById('resultado').innerHTML = innerB;
+                    innerB=resc;
+                    resc="";
                 }
 
                 function calcular()
@@ -141,9 +166,13 @@
                         //request.send();
                         request.onreadystatechange = function(){
                             if ( request.readyState == 4 && request.status == 200 ) {
+                                resc=document.getElementById('resultado').innerHTML+"=";
                                 //console.log(request.responseText);
                                 document.getElementById('resultado').innerHTML = request.responseText;
                                 expressao=request.responseText;
+                                resc+=expressao;
+                                document.getElementById('historico').innerHTML +="</br>"+resc;
+                                resc="";
                                 
                         }
                         
@@ -159,6 +188,10 @@
                 function manipularTeclado(){
                     if(/[0-9]/.test(event.key))
                         atualizarDisplay({value: event.key});
+                }
+
+                function limparHistorico(){
+                    document.getElementById('historico').innerHTML = "";
                 }
 
               
