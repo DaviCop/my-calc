@@ -27,6 +27,22 @@
                     border-right-color:rgb(203, 210, 230);
                         border-bottom-color:rgb(178, 178, 224)
     }
+    .historico{
+        position: absolute;
+        top:17%;
+        left:3%;
+        background-image: linear-gradient(190deg,rgb(167, 167, 202),rgb(239, 239, 240));
+        min-height:380px;
+        min-width:310px;
+        border-style: outset;
+        border-radius: 7px;
+        padding: 14px;
+        border-top-color:rgb(177, 189, 204);
+                border-left-color:rgb(236, 235, 235);
+                    border-right-color:rgb(203, 210, 230);
+                        border-bottom-color:rgb(178, 178, 224);
+        
+    }
         .botao{
             width: 60px;
             height: 60px;
@@ -64,6 +80,10 @@
     <body onkeypress="manipularTeclado()">
     <body bgcolor= "#3A3545"/>
 <body>
+        <div class="historico">
+            <h4 style="text-align:center">Historico</h4>
+            <p id="historico" style="font-size:16px; text-align:center"></p>
+        </div>
         <div class="calculadora">
             <p id="resultado"></p>
             <table>
